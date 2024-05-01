@@ -6,10 +6,11 @@ public class Galamb : MonoBehaviour
 
     // A lecserélést végző objektum
     private SpriteRenderer spriteRenderer;
+    // Galamb magasságának értéke
     private Vector3 direction;
-    // Az animációhoz lévő kellő spriteok
+    // Az animációhoz kellő spriteok
     public Sprite[] sprites;
-    // Aktuális állapot
+    // Aktuális sprite indexe
     private int spriteIndex;
 
    
@@ -27,8 +28,8 @@ public class Galamb : MonoBehaviour
         InvokeRepeating(nameof(AnimateSprite),0.15f, 0.15f);
     }
 
+    // Minden újra indításnál reseteli a magasságot
     private void OnEnable(){
-        // Minden újra indításnál reseteli a magasságot
         Vector3 pos = transform.position;
         pos.y = 0f;
 
@@ -67,11 +68,13 @@ public class Galamb : MonoBehaviour
         transform.position +=  direction * Time.deltaTime;
 
     }
-
+    // Objektum érintés esetén lefutó függvény
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Ha Akadályhoz ér hozzá vége
         if(other.gameObject.tag == "Akadaly"){
             FindObjectOfType<GameManager>().GameOver();
+        // Ha a két cső közé esik akkor plusz pont.
         }else if( other.gameObject.tag == "Pontozas"){
             FindObjectOfType<GameManager>().IncreaseScore();
         }
